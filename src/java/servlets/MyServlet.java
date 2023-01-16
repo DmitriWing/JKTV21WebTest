@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "MyServlet", urlPatterns = {"/MyServlet", "/page1", "/page3", "/pageJSP2"})
+@WebServlet(name = "MyServlet", urlPatterns = {"/MyServlet", "/readers", "/books", "/home"})
 public class MyServlet extends HttpServlet {
 
     /**
@@ -24,10 +24,23 @@ public class MyServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        switch(request.getServletPath()){
-            case "/page1":
-                request.getRequestDispatcher("/WEB-INF/page1.html").forward(request, response);
+        switch(request.getServletPath()){       // getServletPath() - loking for in urlPatterns = {..., ..., }
+            case "/readers":
+                request.setAttribute("info", "This info transferred via servlet by pattern /readers");     // request.setAttribute("here variable which will be transferred to html", "here is a value of variable");
+                request.setAttribute("title", "Readers");     // request.setAttribute("here variable which will be transferred to html", "here is a value of variable");
+                request.getRequestDispatcher("/WEB-INF/readers.jsp").forward(request, response);
                 break;
+            case "/books":
+                request.setAttribute("info", "This info transferred via servlet by pattern /books");     // request.setAttribute("here variable which will be transferred to html", "here is a value of variable");
+                request.setAttribute("title", "Books");     // request.setAttribute("here variable which will be transferred to html", "here is a value of variable");
+                request.getRequestDispatcher("/WEB-INF/books.jsp").forward(request, response);
+                break;
+            case "/home":
+                request.setAttribute("info", "This info transferred via servlet by pattern /home");     // request.setAttribute("here variable which will be transferred to html", "here is a value of variable");
+                request.setAttribute("title", "Library");     // request.setAttribute("here variable which will be transferred to html", "here is a value of variable");
+                request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+                break;
+           
             case "/MyServlet":
                 try (PrintWriter out = response.getWriter()) {
                 /* TODO output your page here. You may use following sample code. */
@@ -43,13 +56,13 @@ public class MyServlet extends HttpServlet {
                 out.println("</html>");
             }
                 break;
-            case "/page3":
-                request.getRequestDispatcher("/WEB-INF/page3.html").forward(request, response);
-                break;
-            case "/pageJSP2":
-                request.setAttribute("info", "This info transferred from servlet");
-                request.getRequestDispatcher("/WEB-INF/pageJSP2.jsp").forward(request, response);
-                break;
+//            case "/page3":
+//                request.getRequestDispatcher("/WEB-INF/page3.html").forward(request, response);
+//                break;
+//            case "/pageJSP2":
+//                request.setAttribute("info", "This info transferred from servlet");     // request.setAttribute("here variable which will be transferred to html", "here is a value of variable");
+//                request.getRequestDispatcher("/WEB-INF/pageJSP2.jsp").forward(request, response);
+//                break;
             default:
                 throw new AssertionError();
             
